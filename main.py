@@ -3,22 +3,18 @@ from player import Player, PlayerDirection
 from solver import MazeSolver
 import pygame, sys
 from pygame.locals import *
-import time
-
-start = time.time()
 
 map_object = Map(Rule(3, 6), Rule(1, 5))
-map_object.set_map(map_object._import_file('./input.txt'))
+map_object.set_map(map_object._import_file('./files/input.txt'))
 player_object = Player(map_object)
 maze_solver = MazeSolver()
 
 maze_solver.solve(map_object)
+maze_solver.pretty_print()
 path = maze_solver.result
-print(path)
-print(f'São necessários: {len(path)} passos.')
-end = time.time()
-print(end - start)
-print(player_object.best_directions())
+print(f'São necessários: {len(path)} passos para resolver.')
+print(f'Foram checados {maze_solver.steps} passsos.')
+print(f'Foram necessários {maze_solver.seconds} segundos para resolver.')
 
 clock = pygame.time.Clock()
 
@@ -44,18 +40,13 @@ if __name__ == '__main__':
                 sys.exit()
                 
             if event.type == KEYUP:
-                
-                move = path.pop(0)
-                print(f'move: {move}')
                 if event.key == K_LEFT: player_object.move(PlayerDirection.LEFT)
-                # if event.key == K_RIGHT: player_object.move(PlayerDirection.RIGHT)
-                if event.key == K_RIGHT: player_object.move(move)
+                if event.key == K_RIGHT: player_object.move(PlayerDirection.RIGHT)
                 if event.key == K_UP: player_object.move(PlayerDirection.UP)
                 if event.key == K_DOWN: player_object.move(PlayerDirection.DOWN)
                 
                 map_object.step()
                 print(player_object.best_directions())
-                
                     
         screen.blit(background, (0, 0))
         

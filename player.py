@@ -3,10 +3,10 @@ from enum import Enum
 import copy
     
 class PlayerDirection(Enum):
-    UP = 1
-    DOWN = 2
-    RIGHT = 3
-    LEFT = 4
+    UP = 'U'
+    DOWN = 'D'
+    RIGHT = 'R'
+    LEFT = 'L'
 
 class Player(object):
     def __init__(self, map: Map) -> None:
