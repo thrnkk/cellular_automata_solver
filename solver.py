@@ -1,9 +1,22 @@
-from map import Map, Cell, Rule
-from player import Player, PlayerDirection
+from map import Map
+from player import Player
 import copy
 import time
-import sys
+from collections import deque
 
+# def memoize(func):
+#     cache = {}
+#     def wrapper(*args):
+#         print(args)
+#         key = tuple(map(tuple, args[0]))
+#         if key in cache:
+#             return cache[key]
+        
+#         cache[key] = func(*args)
+#         return cache[key]
+#     return wrapper
+
+# @memoize
 class MazeSolver(object):
     def __init__(self) -> None:
         self.result = []
@@ -16,31 +29,27 @@ class MazeSolver(object):
         end = time.time()
         self.seconds = round(end - start, 2)
     
-    def _solve(self, map: Map, path: list[PlayerDirection] = []):
+    def _solve(self, map: Map, path: deque = deque()):
         self.steps += 1
         
-        new_map = copy.deepcopy(map)
-        path_so_far = copy.deepcopy(path)
-        
-        if new_map.player_position['x'] == new_map.objective_position['x'] and new_map.player_position['y'] == new_map.objective_position['y']:
-            self.result = path_so_far
+        if map.player_position.x == map.objective_position.x and map.player_position.y == map.objective_position.y:
+            self.result = path
             return True
         
-        player = Player(new_map)
-        directions = player.best_directions()
+        player = Player()
+        directions = player.best_directions(map)
         
         for direction, distance in directions:
             new_map = copy.deepcopy(map)
-            player = Player(new_map)
-            player.move(direction)
+            new_map.move_player(direction)
             
             new_map.step()
-            path_so_far.append(direction)
+            path.append(direction)
             
-            if self._solve(new_map, path_so_far):
+            if self._solve(new_map, path):
                 return True
             
-            path_so_far.pop()
+            path.pop()
 
         return False
     

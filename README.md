@@ -5,6 +5,6 @@ D D U U D U D U U U U U U L U D D R D R R L R D R D R D R R R R L D D U D R R R 
 R R R U L D R U R R D R R R R R R R U D R R R R R R R R R U D R R R L R L L U D L L L R R R L L R R L U D U D L R R R R R R R R R R U U U R D 
 R U U U L D U D D D D R U U U D D D U R D U D R R D R
 
-São necessários: 382 passos para resolver.
-Foram checados 546 passsos.
-Foram necessários 128.11 segundos para resolver.
+São necessários: 382 passos para resolver. <br>
+Foram checados 546 passsos. <br>
+Foram necessários 100.15 segundos para resolver.

@@ -1,4 +1,5 @@
 import copy
+from utility import PlayerDirection
 
 class Cell(object):
     def __init__(self, value: int = 0, alive: bool = False) -> None:
@@ -15,14 +16,19 @@ class Rule(object):
     
     def __str__(self):
         return f'GT: {self.greater_than} | LT: {self.lower_than}'
+    
+class Point(object):
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
         
 class Map(object):
     def __init__(self, survivor_rule: Rule, birth_rule: Rule) -> None:
         self.survivor_rule = survivor_rule
         self.birth_rule = birth_rule
         
-        self.objective_position = {'x': 0, 'y': 0}
-        self.player_position = {'x': 0, 'y': 0}
+        self.objective_position = Point(0, 0)
+        self.player_position = Point(0, 0)
         
         self.map = [[]]
         
@@ -58,13 +64,13 @@ class Map(object):
                         
                     if value == 3: # player
                         row_list.append(Cell(3, False))
-                        self.player_position['x'] = c
-                        self.player_position['y'] = r
+                        self.player_position.x = c
+                        self.player_position.y = r
                         
                     if value == 4: # end
                         row_list.append(Cell(4, False))
-                        self.objective_position['x'] = c
-                        self.objective_position['y'] = r
+                        self.objective_position.x = c
+                        self.objective_position.y = r
                         
                 map.append(row_list)
                 r += 1
@@ -116,10 +122,31 @@ class Map(object):
         return new_map
     
     def step(self):
-        next_map = self.next_step(self.map)
-        self.map = copy.deepcopy(next_map)
+        self.map = self.next_step(self.map)
         
-        if self.map[self.player_position['y']][self.player_position['x']].alive:
+        if self.map[self.player_position.y][self.player_position.x].alive:
             print('game over')
     
+    def move_player(self, direction: PlayerDirection):
+        old_x = self.player_position.x
+        old_y = self.player_position.y
         
+        if direction == PlayerDirection.UP:
+            self.player_position = Point(old_x, old_y - 1)
+            self.map[old_y][old_x].value = 0
+            self.map[old_y - 1][old_x].value = 3
+            
+        if direction == PlayerDirection.DOWN:
+            self.player_position = Point(old_x, old_y + 1)
+            self.map[old_y][old_x].value = 0
+            self.map[old_y + 1][old_x].value = 3
+            
+        if direction == PlayerDirection.RIGHT:
+            self.player_position = Point(old_x + 1, old_y)
+            self.map[old_y][old_x].value = 0
+            self.map[old_y][old_x + 1].value = 3
+            
+        if direction == PlayerDirection.LEFT:
+            self.player_position = Point(old_x - 1, old_y)
+            self.map[old_y][old_x].value = 0
+            self.map[old_y][old_x - 1].value = 3

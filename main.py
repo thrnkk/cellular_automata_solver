@@ -6,8 +6,9 @@ from pygame.locals import *
 
 map_object = Map(Rule(3, 6), Rule(1, 5))
 map_object.set_map(map_object._import_file('./files/input.txt'))
-player_object = Player(map_object)
+player_object = Player()
 maze_solver = MazeSolver()
+counter = 0
 
 maze_solver.solve(map_object)
 maze_solver.pretty_print()
@@ -40,13 +41,15 @@ if __name__ == '__main__':
                 sys.exit()
                 
             if event.type == KEYUP:
-                if event.key == K_LEFT: player_object.move(PlayerDirection.LEFT)
-                if event.key == K_RIGHT: player_object.move(PlayerDirection.RIGHT)
-                if event.key == K_UP: player_object.move(PlayerDirection.UP)
-                if event.key == K_DOWN: player_object.move(PlayerDirection.DOWN)
-                
+                # if event.key == K_LEFT: map_object.move_player(PlayerDirection.LEFT)
+                # if event.key == K_RIGHT: map_object.move_player(PlayerDirection.RIGHT)
+                # if event.key == K_UP: map_object.move_player(PlayerDirection.UP)
+                # if event.key == K_DOWN: map_object.move_player(PlayerDirection.DOWN)
+                if event.key == K_RIGHT: 
+                    map_object.move_player(PlayerDirection(path[counter]))
+                    if counter < len(path) - 1: counter += 1
+                    
                 map_object.step()
-                print(player_object.best_directions())
                     
         screen.blit(background, (0, 0))
         
