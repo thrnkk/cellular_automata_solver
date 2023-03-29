@@ -8,3 +8,5 @@ R U U U L D U D D D D R U U U D D D U R D U D R R D R
 São necessários: 382 passos para resolver. <br>
 Foram checados 546 passsos. <br>
 Foram necessários 100.15 segundos para resolver.
+
+Para rodar o código, execute o arquivo main.py com `python main.py` na pasta raíz do projeto.
