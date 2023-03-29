@@ -4,19 +4,6 @@ import copy
 import time
 from collections import deque
 
-# def memoize(func):
-#     cache = {}
-#     def wrapper(*args):
-#         print(args)
-#         key = tuple(map(tuple, args[0]))
-#         if key in cache:
-#             return cache[key]
-        
-#         cache[key] = func(*args)
-#         return cache[key]
-#     return wrapper
-
-# @memoize
 class MazeSolver(object):
     def __init__(self) -> None:
         self.result = []
